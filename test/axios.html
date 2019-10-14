@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>axios案例</title>
+	<script src="../node_modules/vue/dist/vue.js"></script>
+  <script src="../node_modules/axios/dist/axios.js"></script>
+  <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+<body>
+ <div id="app" class="container">
+    <h2>axios插件的使用</h2>
+    <a href="javascript:;" class="btn btn-primary" @click="get">Get</a>
+     <a href="javascript:;" class="btn btn-primary" @click="post">Post</a>
+     <a href="javascript:;" class="btn btn-primary" @click="http">Http</a>
+     <a href="javascript:;" class="btn btn-primary" @click="all">all</a>
+    <div>{{msg}}</div>
+  </div>
+  <script>
+
+  	 new Vue({
+  	 	el:'#app',
+  	 	data:{
+  	 		msg:''
+  	 	},
+         mounted:function () {
+  	 	    //axios 配置
+            axios.defaults.baseURL = 'http://localhost:63342/myVueDemo/';
+            axios.defaults.headers.common['author'] = "libing";
+
+            //axios 拦截配置
+
+             var instance = axios.create({
+                 baseURL:'http://localhost:63342/myVueDemo/'
+             });
+             axios.interceptors.request.use(function (config) {
+                 console.log("request init");  //在这里可以设置加载动画
+                 return config
+             },function (error) {
+                 console.log(error);
+                 return Promise.reject(error)
+             });
+
+             axios.interceptors.response.use(function (response) {
+                 console.log("response init") //在这里可以设置动画消失
+                 return response
+             },error=>{
+                 return Promise.reject(error);
+             })
+
+         },
+  	 	methods:{
+  	 		get(){
+               axios.get('package.json',{
+                   params:{
+                       userId:"123"
+                   },
+                   headers:{
+                       access_token:'token'
+                   },
+                   before:function () {
+                       console.log("before init")
+                   }
+               }).then(res=>{
+                   console.log(res);
+                   this.msg = res.data;
+               }).catch(error=>{
+                   console.log(error)
+               })
+  	 		},
+            post (){
+              axios.post('package.json',{
+                  userId:'123123'
+              },{
+                  headers:{
+                      token:"tokens"
+                  },
+                  before(){
+                      console.log('post before');
+                  }
+              }).then(res=>{
+                  this.msg=res.data;
+              }).catch(error=>{
+                  console.log(error);
+              })
+            },
+            http(){
+                axios({
+                    url:'package.json',
+                    method:'post',
+                    // params:{  //get 方法用params
+                    //     userName:'libing'
+                    // },
+                    data:{ //post方法用data
+                      userId:"21312"
+                    },
+                    headers:{
+                        token:'101'
+                    }
+                }).then(res=>{
+                    this.msg = res.data;
+                }).catch(error=>{
+                    console.log(error);
+                })
+            },
+            all(){
+               var getIndex = function () {
+                   return axios.get("index.html");
+               }
+               var getPack = function () {
+                   return axios.get('package.json')
+               }
+               axios.all([getIndex(),getPack()]).then(res=>{
+                   console.log(res)
+                   var [res1,res2] = res;
+                   console.log(res1)
+                   console.log(res2)
+               }).catch(error=>{
+                   console.log(error);
+               });
+
+                // axios.all([getIndex(),getPack()]).then(axios.spread(function (res1,res2) {
+                //     console.log(res1);
+                //     console.log(res2);
+                // }))
+            }
+  	 	}
+  	 })
+
+
+  </script>
+
+</body>
+</html>
