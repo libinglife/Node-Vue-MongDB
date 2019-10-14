@@ -2,9 +2,9 @@
     <div>
       <nav-header></nav-header>
 
-      <div style="height: 200px">
-        <span class="testSpan">你好</span>
-      </div>
+      <!--<div style="height: 200px">-->
+        <!--<span class="testSpan">你好</span>-->
+      <!--</div>-->
       <bread>
         <span slot="moren">goods</span>
         <!--<span slot="second">你好2</span>-->
@@ -23,18 +23,10 @@
               <dl class="filter-price">
                 <dt>Price:</dt>
                 <dd><a class="cur" href="javascript:void(0)">All</a></dd>
-                <dd>
-                  <a href="javascript:void(0)">0 - 100</a>
+                <dd v-for="(priceItem , index) in priceFilter">
+                  <a href="javascript:void(0)">{{priceItem.startPrice}} - {{priceItem.endPrice}}</a>
                 </dd>
-                <dd>
-                  <a href="javascript:void(0)">100 - 500</a>
-                </dd>
-                <dd>
-                  <a href="javascript:void(0)">500 - 1000</a>
-                </dd>
-                <dd>
-                  <a href="javascript:void(0)">1000 - 2000</a>
-                </dd>
+
               </dl>
             </div>
 
@@ -54,8 +46,6 @@
                       </div>
                     </div>
                   </li>
-
-
                 </ul>
               </div>
             </div>
@@ -81,7 +71,25 @@ export default {
   name: "goods",
   data(){
     return {
-       goods:[]
+        goods:[],
+        priceFilter:[
+            {
+                startPrice:'0.00',
+                endPrice:'100.00'
+            },
+            {
+                startPrice:'100.00',
+                endPrice:'500.00'
+            },
+            {
+                startPrice:'500.00',
+                endPrice:'1000.00'
+            },
+            {
+                startPrice:'1000.00',
+                endPrice:'5000.00'
+            }
+        ]
     }
   },
   components:{
