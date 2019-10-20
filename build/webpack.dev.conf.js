@@ -10,10 +10,10 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const portfinder = require('portfinder')
 //-----mock code start-----
-const express = require("express");
-const app = express();
-const goods = require("../mock/goods.json");
-const router = express.Router();
+// const express = require("express");
+// const app = express();
+// const goods = require("../mock/goods.json");
+// const router = express.Router();
 
 
 //------mock code end----------
@@ -51,11 +51,11 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       poll: config.dev.poll,
     },
     //mock 模拟接口
-    before(app){
-      app.get("/api/goods",(req,res)=>{
-        res.json(goods);
-      })
-    }
+    // before(app){
+      // app.get("/api/goods",(req,res)=>{
+      //   res.json(goods);
+      // })
+    // }
   },
   plugins: [
     new webpack.DefinePlugin({

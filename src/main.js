@@ -5,7 +5,9 @@ import App from './App'
 import router from './router'
 import axios from "axios";
 import vueAxios from "vue-axios"
-Vue.use(vueAxios,axios)
+import infiniteScroll from 'vue-infinite-scroll'
+Vue.use(vueAxios,axios);
+Vue.use(infiniteScroll)
 
 
 Vue.config.productionTip = false
