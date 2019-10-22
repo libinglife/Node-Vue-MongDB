@@ -30,13 +30,13 @@
               </dl>
             </div>
 
-            <!-- search result accessories list -->
+            <!-- 商品列表 search result accessories list -->
             <div class="accessory-list-wrap">
               <div class="accessory-list col-4">
                 <ul>
                   <li v-for="(item , index) in goods">
                     <div class="pic">
-                      <a href="#"><img :src="'static/'+item.productImage" alt=""></a>
+                      <a href="#"><img v-lazy="'static/'+item.productImage" alt=""></a>
                     </div>
                     <div class="main">
                       <div class="name">{{item.productName}}</div>

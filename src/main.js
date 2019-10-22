@@ -7,10 +7,21 @@ import axios from "axios";
 import vueAxios from "vue-axios"
 import infiniteScroll from 'vue-infinite-scroll'
 Vue.use(vueAxios,axios);
-Vue.use(infiniteScroll)
+Vue.use(infiniteScroll);
 
+import VueLazyLoad from 'vue-lazyload'
 
-Vue.config.productionTip = false
+Vue.use(vueAxios,axios);
+
+Vue.use(VueLazyLoad,{
+	preLoad:'1.3', //预加载高度比例
+    loading: 'static/loading-svg/loading-bars.svg',
+    attempt:3, //尝试计数
+    try: 3 // defaulst 1
+});
+
+Vue.config.productionTip = false;
+
 
 /* eslint-disable no-new */
 new Vue({
