@@ -64,7 +64,7 @@
 
 <script>
   import '../assets/css/base.css'
-  import '../assets/css/login.css'
+
   import '../assets/css/checkout.css'
   import '../assets/css/product.css'
 
@@ -187,7 +187,13 @@ export default {
     addCart(productId){
       this.axios.post('/api/goods/addCart',{
             productId
-        }).then((res)=>{
+        }).then((result)=>{
+          let res = result.data;
+          if(res.status==0){
+            alert("加入购物车成功")
+          }else {
+            alert("加入购物车失败")
+          }
             console.log(res);
         }).catch(err=>{
           console.log(err)
