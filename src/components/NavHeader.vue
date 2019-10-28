@@ -15,9 +15,9 @@
       <div class="navbar-right-container" style="display: flex;">
         <div class="navbar-menu-container">
           <!--<a href="/" class="navbar-link">我的账户</a>-->
-          <span class="navbar-link"></span>
-          <a href="javascript:void(0)" @click="loginModalFlag=true" class="navbar-link">Login</a>
-          <a href="javascript:void(0)" class="navbar-link">Logout</a>
+          <span class="navbar-link" v-text="nickName" v-if="nickName"></span>
+          <a href="javascript:void(0)" @click="loginModalFlag=true" v-if="!nickName" class="navbar-link">Login</a>
+          <a href="javascript:void(0)" class="navbar-link" @click="logout">Logout</a>
           <div class="navbar-cart-container">
             <span class="navbar-cart-count"></span>
             <a class="navbar-link navbar-cart-link" href="/#/cart">
@@ -72,20 +72,54 @@
              loginModalFlag:false,
              userName:'',
              userPwd:'',
-             errorTip:false
+             errorTip:false,
+             nickName:''
            }
         },
+        mounted(){
+          this.checkLogin();
+        },
         methods:{
+          //登陆
           login(){
+              if(this.userName==""||this.userPwd==""){
+                this.errorTip = true ;
+                return
+              }
               this.axios.post("/api/users/login",{
                   userName:this.userName,
                   userPwd:this.userPwd
               }).then(response=>{
                 let res = response.data;
-                console.log(res)
+                console.log(res);
+                if(res.status=="0"){
+                  this.loginModalFlag=false;
+                  this.nickName = res.result.userName;
+                  this.errorTip = false ;
+                }
               }).catch(err=>{
                 console.log(err)
               })
+          },
+          //退出
+          logout(){
+            this.axios.post('/api/users/logout').then((result)=>{
+               let res = result.data;
+               console.log(res);
+               if(res.status=='0'){
+                 this.nickName = ''
+               }
+            })
+          },
+          //检测是否登陆
+          checkLogin(){
+            this.axios.post('/api/users/checkLogin').then((result)=>{
+              let res = result.data;
+              console.log(res);
+              if(res.status=="0"){
+                this.nickName = res.result.userName
+              }
+            })
           }
         }
     }
